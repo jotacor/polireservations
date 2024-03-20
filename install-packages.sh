@@ -6,7 +6,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 apt-get update
 apt-get -y upgrade
-apt-get -y install --no-install-recommends wget locales firefox-esr
+apt-get -y install --no-install-recommends locales
 
 sed -i -e "s/# $LANG.*/$LANG UTF-8/" /etc/locale.gen
 dpkg-reconfigure --frontend=noninteractive locales

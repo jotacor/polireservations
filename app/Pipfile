@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 selenium = "4.18.1"
+requests = "2.31"
 
 [dev-packages]
 
