@@ -70,17 +70,16 @@ def payment(browser):
     browser.find_element(By.ID, 'codseg').send_keys(config.credit_cvc)
     browser.find_element(By.ID, 'divImgAceptar').click()
     print(f"Remember to confirm payment in mobile phone if needed")
-    WebDriverWait(browser, 10).until(element_to_be_clickable((By.XPATH, f"//input[@value='Continuar']"))).click()
+    browser.save_screenshot("/app/card.png")
+    notify(msg=f"Card payment {time_spent()}s", filepath="/app/card.png")
+    WebDriverWait(browser, 300).until(element_to_be_clickable((By.XPATH, f"//input[@value='Continuar']"))).click()
     WebDriverWait(browser, 300).until(presence_of_element_located((By.XPATH, f"//span[@id='ContentFixedSection_lblTitulo']")))
     browser.save_screenshot("/app/payment.png")
+    notify(msg=f"Payment confirmation {time_spent()}s", filepath="/app/payment.png")
 
-def notify(msg, success=True):
+def notify(msg, filepath="/app/payment.png"):
     url = f"https://api.telegram.org/bot{config.telegram_token}/sendPhoto"
-    if success:
-        file = {"photo": open("/app/payment.png", "rb")}
-    else:
-        file = {"photo": open("/app/fail.png", "rb")}
-
+    file = {"photo": open(filepath, "rb")}
     data = {"chat_id": config.telegram_chat_id, "caption": msg}
     response = requests.post(url, files=file, data=data)
 
@@ -92,21 +91,21 @@ def notify(msg, success=True):
 def main():
     print(f"Starting: {time_spent()}s")
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
-    options = webdriver.FirefoxOptions()
-    options.add_argument('--headless')
-    browser = webdriver.Remote(command_executor=config.selenium, options=options)
+    if config.debug:
+        browser = webdriver.Firefox()
+    else:
+        browser = webdriver.Remote(command_executor=config.selenium)
 
     login(browser)
     schedule = book(browser)
 
     if not schedule.get_attribute("Estado"):
-        notify(msg=f"Not available {time_spent()}s", success=False)
+        notify(msg=f"Not available {time_spent()}s", filepath="/app/fail.png")
 
     if schedule.get_attribute("Estado") == "Libre":
         print(f"Available: {time_spent()}s")
         confirm(browser, schedule)
         payment(browser)
-        notify(msg=f"Payment confirmation {time_spent()}s", success=True)
 
     print(f"End: {time_spent()}s")
     browser.quit()
