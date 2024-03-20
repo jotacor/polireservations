@@ -10,22 +10,21 @@ services:
     container_name: poli
     env_file:
       - .env
-    environment:
-    - SELENIUM=http://selenium:4444
-    - DEBUG=False
-    - HOME="https://website/Home"
-    - LOGIN="https://website/Login"
-    - SPORT="Sport"
-    - WEEKDAY="Viernes"
-    - TIME="11"
-    - USERNAME="username"
-    - PASSWORD="password"
-    - EMAIL="email"
-    - CREDIT_NUMBER="1234567890123456"
-    - CREDIT_EXPIRATION="01/70"
-    - CREDIT_CVC="123"
-    - TELEGRAM_CHAT_ID=1234567
-    - TELEGRAM_TOKEN=098765431:whatever
+    # environment:
+    # - SELENIUM=http://selenium:4444
+    # - HOME="https://website/Home"
+    # - LOGIN="https://website/Login"
+    # - SPORT="Sport"
+    # - WEEKDAY="Viernes"
+    # - TIME="11"
+    # - USERNAME="username"
+    # - PASSWORD="password"
+    # - EMAIL="email"
+    # - CREDIT_NUMBER="1234567890123456"
+    # - CREDIT_EXPIRATION="01/70"
+    # - CREDIT_CVC="123"
+    # - TELEGRAM_CHAT_ID=1234567
+    # - TELEGRAM_TOKEN=098765431:whatever
 
   selenium:
     networks:

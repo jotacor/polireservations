@@ -32,7 +32,7 @@ def book(browser):
     WebDriverWait(browser, 3).until(element_to_be_clickable((By.XPATH, f"//h4[text()='{config.sport}']"))).click()
     try:
         WebDriverWait(browser, 3).until(element_to_be_clickable((By.XPATH, f"//a[text()='{required_date}']"))).click()
-        print(f"Trying to book {config.sport} on {required_date}")
+        print(f"Trying to book {config.sport} on {required_date} at {config.time}h ")
     except:
         print(f"Weekday to book not found {required_date}")
         exit(0)
@@ -70,8 +70,8 @@ def payment(browser):
     browser.find_element(By.ID, 'codseg').send_keys(config.credit_cvc)
     browser.find_element(By.ID, 'divImgAceptar').click()
     print(f"Remember to confirm payment in mobile phone if needed")
-    WebDriverWait(browser, 300).until(element_to_be_clickable((By.XPATH, f"//input[@value='Continuar']"))).click()
-    WebDriverWait(browser, 3).until(presence_of_element_located((By.XPATH, f"//span[@id='ContentFixedSection_lblTitulo']")))
+    WebDriverWait(browser, 10).until(element_to_be_clickable((By.XPATH, f"//input[@value='Continuar']"))).click()
+    WebDriverWait(browser, 300).until(presence_of_element_located((By.XPATH, f"//span[@id='ContentFixedSection_lblTitulo']")))
     browser.save_screenshot("/app/payment.png")
 
 def notify(msg, success=True):
