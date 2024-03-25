@@ -4,7 +4,7 @@ import time
 
 class Config:
     def __init__(self):
-        self.debug = os.getenv("DEBUG", False)
+        self.debug = bool(os.getenv("DEBUG", False))
         self.selenium = os.getenv("SELENIUM", "http://localhost:4444")
         self.start_time = time.time()
         self.login = os.getenv("LOGIN")
