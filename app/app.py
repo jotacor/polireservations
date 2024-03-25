@@ -91,10 +91,7 @@ def notify(msg, filepath="/app/payment.png"):
 def main():
     print(f"Starting: {time_spent()}s")
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
-    if config.debug:
-        browser = webdriver.Firefox()
-    else:
-        browser = webdriver.Remote(command_executor=config.selenium)
+    browser = webdriver.Remote(command_executor=config.selenium)
 
     login(browser)
     schedule = book(browser)
