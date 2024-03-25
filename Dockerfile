@@ -3,9 +3,16 @@ FROM python:3.12-slim
 ENV PIPENV_VENV_IN_PROJECT=1
 ENV LANG=es_ES.UTF-8
 ENV DEBUG=False
+ENV GECKO_DRIVER=0.34.0
 
 COPY --chmod=700 install-packages.sh .
 RUN ./install-packages.sh
+
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v${GECKO_DRIVER}/geckodriver-v${GECKO_DRIVER}-linux64.tar.gz && \
+    tar -xvzf geckodriver-*.tar.gz && \
+    rm geckodriver-*.tar.gz && \
+    chmod +x geckodriver && \
+    mv geckodriver /usr/local/bin
 
 COPY --chmod=555 entrypoint.sh /entrypoint.sh
 COPY app /app
